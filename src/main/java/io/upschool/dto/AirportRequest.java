@@ -10,9 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class AirportRequest {
-
     private String name;
-
     private String code;
 
 }

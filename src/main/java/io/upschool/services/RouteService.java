@@ -1,7 +1,7 @@
 package io.upschool.services;
 
-import io.upschool.dto.RouteRequest;
-import io.upschool.dto.RouteResponse;
+import io.upschool.dto.*;
+import io.upschool.entity.Airport;
 import io.upschool.entity.Route;
 import io.upschool.repository.RouteRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +15,16 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor
 public class RouteService {
     private final RouteRepository routeRepository;
+
+    public RouteResponse getRouteById(RouteSearchDto routeSearchDto){
+        Route route = routeRepository.findById(routeSearchDto.getId()).get();
+        return RouteResponse.builder()
+                .id(route.getId())
+                .sourceAirportCode(route.getSourceAirportCode())
+                .destinationAirportCode(route.getDestinationAirportCode())
+                .build();
+
+    }
     public List<RouteResponse> getAllRoutes(){
         var routeResponse = routeRepository.findAll().stream().map(route -> RouteResponse.builder()
                 .id(route.getId())

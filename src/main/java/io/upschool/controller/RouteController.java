@@ -1,8 +1,7 @@
 package io.upschool.controller;
 
 
-import io.upschool.dto.RouteRequest;
-import io.upschool.dto.RouteResponse;
+import io.upschool.dto.*;
 import io.upschool.entity.Route;
 import io.upschool.services.RouteService;
 import lombok.RequiredArgsConstructor;
@@ -25,5 +24,9 @@ public class RouteController {
     @PostMapping
     public Route createRoute(@RequestBody RouteRequest routeRequest){
         return routeService.save(routeRequest);
+    }
+    @PostMapping("/RouteId")
+    public ResponseEntity<RouteResponse> getRouteById(@RequestBody RouteSearchDto routeSearchDto){
+        return ResponseEntity.ok(routeService.getRouteById(routeSearchDto));
     }
 }

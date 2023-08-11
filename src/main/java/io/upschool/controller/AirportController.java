@@ -1,6 +1,6 @@
 package io.upschool.controller;
 
-import io.upschool.dto.AirportRequest;
+import io.upschool.dto.*;
 import io.upschool.entity.Airport;
 import io.upschool.services.AirportService;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +24,10 @@ public class AirportController {
     @PostMapping
     public Airport createAirport(@RequestBody AirportRequest airportRequest){
     return airportService.save(airportRequest);
+    }
+    @PostMapping("/companyID")
+    public ResponseEntity<AirportResponse> getAirportsByCompanyID(@RequestBody AirportSearchDto airportSearchDto){
+        return ResponseEntity.ok(airportService.getAirportById(airportSearchDto));
     }
 
 }

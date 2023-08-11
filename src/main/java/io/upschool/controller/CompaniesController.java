@@ -2,6 +2,7 @@ package io.upschool.controller;
 
 import io.upschool.dto.CompanyRequest;
 import io.upschool.dto.CompanyResponse;
+import io.upschool.dto.CompanySearchDto;
 import io.upschool.entity.Companies;
 import io.upschool.services.CompaniesServices;
 import lombok.RequiredArgsConstructor;
@@ -26,9 +27,9 @@ public class CompaniesController {
     public Companies createAirport(@RequestBody CompanyRequest companyRequest){
         return companiesServices.save(companyRequest);
     }
-    @GetMapping("/airportID/{id}")
-    public ResponseEntity<List<CompanyResponse>> getCompaniesByAirportID(@PathVariable("id") Long airportID){
-        return ResponseEntity.ok(companiesServices.getCompaniesByAirportID(airportID));
+    @PostMapping("/airportID")
+    public ResponseEntity<CompanyResponse> getCompaniesByAirportID(@RequestBody CompanySearchDto companySearchDto){
+        return ResponseEntity.ok(companiesServices.getCompanyById(companySearchDto));
     }
 
 }
