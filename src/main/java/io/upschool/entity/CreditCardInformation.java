@@ -1,5 +1,6 @@
 package io.upschool.entity;
 
+import io.upschool.dto.TicketPurchaseRequest;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -7,7 +8,7 @@ import jakarta.persistence.Id;
 import lombok.Data;
 
 @Data
-public class CreditCardInformation {
+public class CreditCardInformation{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

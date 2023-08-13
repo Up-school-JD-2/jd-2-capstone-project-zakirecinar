@@ -1,8 +1,8 @@
 package io.upschool.services;
 
 
-import io.upschool.dto.FlightRequest;
-import io.upschool.dto.FlightResponse;
+import io.upschool.dto.*;
+import io.upschool.entity.Companies;
 import io.upschool.entity.Flight;
 import io.upschool.repository.FlightRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +14,18 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FlightService {
     private final FlightRepository flightRepository;
+
+    public FlightResponse getFlightById(TicketSearchDto ticketSearchDto){
+        Flight flight = flightRepository.findById(ticketSearchDto.getId()).get();
+        return FlightResponse.builder()
+                .id(flight.getId())
+                .companyId(flight.getCompanyId())
+                .routeId(flight.getId())
+                .arrivalTime(flight.getArrivalTime())
+                .departureTime(flight.getDepartureTime())
+                .companyName(flight.getCompanyName())
+                .build();
+    }
 
     public List<FlightResponse> getAllFlights() {
         var flightResponse = flightRepository.findAll().stream().map(flight -> FlightResponse.builder()

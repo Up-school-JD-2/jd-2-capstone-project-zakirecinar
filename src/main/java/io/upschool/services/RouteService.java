@@ -16,6 +16,7 @@ import java.util.stream.Stream;
 public class RouteService {
     private final RouteRepository routeRepository;
 
+
     public RouteResponse getRouteById(RouteSearchDto routeSearchDto){
         Route route = routeRepository.findById(routeSearchDto.getId()).get();
         return RouteResponse.builder()
