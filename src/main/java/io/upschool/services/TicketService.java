@@ -4,6 +4,9 @@ import io.upschool.dto.*;
 import io.upschool.entity.Companies;
 import io.upschool.entity.Flight;
 import io.upschool.entity.Ticket;
+import io.upschool.exception.AirportAlreadySavedException;
+import io.upschool.exception.TicketAlreadySavedException;
+import io.upschool.exception.TicketNotFoundException;
 import io.upschool.repository.FlightRepository;
 import io.upschool.repository.TicketRepository;
 import io.upschool.util.CreditCardMaskingUtil;
@@ -12,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -23,14 +27,20 @@ public class TicketService {
     private CreditCardMaskingUtil maskingUtil;
 
     public TicketResponse getPurchaseById(TicketSearchDto ticketSearchDto) {
-        Ticket ticket = ticketRepository.findById(ticketSearchDto.getId()).get();
-        return TicketResponse.builder()
-                .id(ticket.getId())
-                .passengerName(ticket.getPassengerName())
-                .seatNumber(ticket.getSeatNumber())
-                .cardNumber(ticket.getCardNumber())
-                .flight_id(ticket.getFlight().getId())
-                .build();
+        Optional<Ticket> optionalTicket = ticketRepository.findById(ticketSearchDto.getId());
+
+        if (optionalTicket.isPresent()) {
+            Ticket ticket = optionalTicket.get();
+            return TicketResponse.builder()
+                    .id(ticket.getId())
+                    .passengerName(ticket.getPassengerName())
+                    .seatNumber(ticket.getSeatNumber())
+                    .cardNumber(ticket.getCardNumber())
+                    .flight_id(ticket.getFlight().getId())
+                    .build();
+        } else {
+            throw new TicketNotFoundException("Ticket not found");
+        }
     }
 
     public List<TicketResponse> getAllTickets() {
@@ -45,6 +55,9 @@ public class TicketService {
     }
 
     public Ticket save(TicketPurchaseRequest ticketPurchaseRequest) {
+        if(ticketRepository.existsById(ticketPurchaseRequest.getFlight().getId())){
+            throw new TicketAlreadySavedException("There is a flight with this id.");
+        }
         Ticket ticket = ticketRepository.save(Ticket.builder()
                 .passengerName(ticketPurchaseRequest.getPassengerName())
                 .seatNumber(ticketPurchaseRequest.getSeatNumber())
@@ -54,19 +67,16 @@ public class TicketService {
         return ticket;
     }
 
-
-    /*public String purchaseTicketWithMaskedCard(TicketPurchaseRequest ticketPurchaseRequest) {
-        String maskedCardNumber = maskingUtil.maskCreditCardNumber(String.valueOf(ticketPurchaseRequest.getCardNumber()));
-
-        // Bilet satın alma işlemini gerçekleştir ve maskelenmiş kart numarasını kullan
-        // ...
-
-        return  maskedCardNumber;
-    }*/
     public void delete(Long id) {
-        var ticket = ticketRepository.findById(id).get();
-        ticketRepository.save(ticket);
-        ticketRepository.deleteById(id);
+        Optional<Ticket> optionalTicket = ticketRepository.findById(id);
+
+        if (optionalTicket.isPresent()) {
+            Ticket ticket = optionalTicket.get();
+            ticketRepository.delete(ticket);
+            System.out.println(id+ " Ticket Cancelled");
+        } else {
+            throw new TicketNotFoundException("Ticket not found");
+        }
     }
 }
 

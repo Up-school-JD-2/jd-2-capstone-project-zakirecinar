@@ -21,7 +21,7 @@ public class TicketController {
         var tickets=ticketService.getAllTickets();
         return ResponseEntity.ok(tickets);
     }
-    @PostMapping
+    @PostMapping()
     public Ticket createTicket(@RequestBody TicketPurchaseRequest ticketPurchaseRequest){
         return ticketService.save(ticketPurchaseRequest);
     }
@@ -29,7 +29,6 @@ public class TicketController {
     public ResponseEntity<TicketResponse> getPassangerByTicketID(@RequestBody TicketSearchDto ticketSearchDto){
         return ResponseEntity.ok(ticketService.getPurchaseById(ticketSearchDto));
     }
-
 
     @DeleteMapping("{id}")
     public void deleteAuthor(@PathVariable("id") Long id) {

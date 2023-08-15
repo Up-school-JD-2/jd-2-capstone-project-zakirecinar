@@ -1,8 +1,6 @@
 package io.upschool.dto;
 
-import io.upschool.entity.CreditCardInformation;
 import io.upschool.entity.Flight;
-import io.upschool.entity.Ticket;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

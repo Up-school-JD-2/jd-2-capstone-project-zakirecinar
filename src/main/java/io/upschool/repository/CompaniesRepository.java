@@ -10,6 +10,7 @@ import java.util.List;
 @Repository
 public interface CompaniesRepository extends JpaRepository<Companies,Long> {
     List<Companies> findAllByName(String name);
-
+ //   List<Companies> findAllByRoute_Id(Long id);
+ boolean existsById(Long id);
 
 }

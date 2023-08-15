@@ -28,8 +28,12 @@ public class CompaniesController {
         return companiesServices.save(companyRequest);
     }
     @PostMapping("/airportID")
-    public ResponseEntity<CompanyResponse> getCompaniesByAirportID(@RequestBody CompanySearchDto companySearchDto){
+    public ResponseEntity<CompanyResponse> getCompaniesByID(@RequestBody CompanySearchDto companySearchDto){
         return ResponseEntity.ok(companiesServices.getCompanyById(companySearchDto));
     }
+    /*@GetMapping("{id}")
+    public ResponseEntity<List<CompanyResponse>> getCompaniesByAirportID(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(companiesServices.getCompaniesByAirportID(id));
+    }*/
 
 }

@@ -3,6 +3,7 @@ package io.upschool.services;
 import io.upschool.dto.*;
 import io.upschool.entity.Airport;
 import io.upschool.entity.Route;
+import io.upschool.exception.FlightAlreadySavedException;
 import io.upschool.repository.RouteRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

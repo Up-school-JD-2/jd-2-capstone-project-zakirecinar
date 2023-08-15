@@ -10,4 +10,6 @@ import java.util.List;
 public interface AirportsRepository extends JpaRepository<Airport,Long> {
     // select * from airport p where p.name = ?
     List<Airport> findAllByNameIs(String name);
+
+    boolean existsByName(String name);
 }

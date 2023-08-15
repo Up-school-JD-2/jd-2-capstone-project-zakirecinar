@@ -1,8 +1,7 @@
 package io.upschool.controller;
 
 
-import io.upschool.dto.FlightRequest;
-import io.upschool.dto.FlightResponse;
+import io.upschool.dto.*;
 import io.upschool.entity.Flight;
 import io.upschool.services.FlightService;
 import lombok.RequiredArgsConstructor;
@@ -24,5 +23,9 @@ public class FlightController {
     @PostMapping
     public Flight createFlight(@RequestBody FlightRequest flightRequest){
         return flightService.save(flightRequest);
+    }
+    @PostMapping("/flightID")
+    public ResponseEntity<FlightResponse> getFlightsById(@RequestBody FlightSearchDto flightSearchDto){
+        return ResponseEntity.ok(flightService.getFlightById(flightSearchDto));
     }
 }
